@@ -192,14 +192,6 @@ public class LoginForm extends javax.swing.JFrame {
                      
                     
                 }
-                
-                if(rs.next()){
-                    JOptionPane.showMessageDialog(null, "heelo");
-                }
-                else{
-                    JOptionPane.showMessageDialog(null, "bye");
-
-                }
             } catch (SQLException ex) {
                 Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -221,7 +213,7 @@ public class LoginForm extends javax.swing.JFrame {
 
     private void registerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerBtnActionPerformed
         // TODO add your handling code here:
-        register reg = new register();
+        registerFrame reg = new registerFrame();
         reg.setVisible(true);
         this.setVisible(false);
         
