@@ -5,6 +5,7 @@
 package com.mycompany.loginform;
 
 import com.sun.source.tree.BreakTree;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,12 +15,15 @@ import javax.swing.JOptionPane;
 
 
 public class LoginForm extends javax.swing.JFrame {
+    
+    private Connection connection;
 
     /**
      * Creates new form Login
      */
     public LoginForm() {
         initComponents();
+        connection=MyConnection.getConnection();
     }
 
     /**
@@ -149,7 +153,7 @@ public class LoginForm extends javax.swing.JFrame {
             String query = "SELECT * FROM `users` WHERE `USERNAME` =? AND `PASSWORD`= ?";
             
             try {
-                ps = MyConnection.getConnection().prepareStatement(query);
+                ps = connection.prepareStatement(query);
                 
                 ps.setString(1, username); 
                 ps.setString(2, password);

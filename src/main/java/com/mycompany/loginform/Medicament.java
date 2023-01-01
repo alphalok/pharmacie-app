@@ -4,12 +4,16 @@
  */
 package com.mycompany.loginform;
 
+import java.util.ArrayList;
+import java.util.Objects;
+
 
 public class Medicament {
     private String name;
     private int quantite;
     private double prix;
 
+    
     public Medicament() {
     }
 
@@ -44,6 +48,39 @@ public class Medicament {
         this.prix = prix;
     }
     
+    
+    public static Medicament getMedicamentFromData(ArrayList<Medicament> medis,String medicamentName){
+        Medicament medicament=null;
+        
+        for(Medicament medic : medis){
+           if(medic.getName().equals(medicamentName)){
+               medicament=medic;
+           }
+           
+       }
+        return medicament;
+        
+    }
+    
+    public static ArrayList<Medicament> updateQuantite(ArrayList<Medicament> medis,String medicamentName,int quantite){
+        
+        for(Medicament medic : medis){
+           if(medic.getName().equals(medicamentName)){
+               int medicQuant=medic.getQuantite();
+               if(quantite<=medicQuant){
+                   medic.setQuantite(medicQuant-quantite);
+               }
+               else{
+                   
+               }
+               
+               
+           }
+           
+       }
+        return medis;
+        
+    }
     
     
     

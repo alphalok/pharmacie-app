@@ -4,9 +4,11 @@
  */
 package com.mycompany.loginform;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -20,15 +22,40 @@ public class userFrame extends javax.swing.JFrame {
     
     
     private User user;
+    private ArrayList<Medicament> medicaments;
+    private ArrayList<Medicament> snapshot;
+    private Connection connection;
+    
+    
     
     public userFrame(User u) {
         user=u;
         initComponents();
+        aficherTabel();
+        connection=MyConnection.getConnection();
     }
 
     public userFrame() {        
         initComponents(); 
+        aficherTabel();
+        connection=MyConnection.getConnection();
         
+    }
+    
+    public void aficherTabel(){
+        
+        DefaultTableModel tblModel = (DefaultTableModel) MedicTable.getModel();
+        
+        try {
+            snapshot=MyConnection.databaseSnapshot();
+            for(Medicament medicament:snapshot){
+                String data []= {medicament.getName(),String.valueOf(medicament.getQuantite()),String.valueOf(medicament.getPrix())};
+                tblModel.addRow(data);
+            }
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Un probleme a survenu");
+        }
     }
     
 
@@ -44,7 +71,6 @@ public class userFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         MedicTable = new javax.swing.JTable();
-        btn = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         medicNameField = new javax.swing.JTextField();
@@ -78,6 +104,11 @@ public class userFrame extends javax.swing.JFrame {
         MedicTable.setAlignmentY(1.0F);
         MedicTable.setRowHeight(40);
         MedicTable.setRowMargin(5);
+        MedicTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                MedicTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(MedicTable);
         if (MedicTable.getColumnModel().getColumnCount() > 0) {
             MedicTable.getColumnModel().getColumn(0).setResizable(false);
@@ -85,23 +116,12 @@ public class userFrame extends javax.swing.JFrame {
             MedicTable.getColumnModel().getColumn(2).setResizable(false);
         }
 
-        btn.setText("jButton1");
-        btn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(380, 380, 380)
-                .addComponent(btn)
-                .addContainerGap(345, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(14, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 745, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(41, 41, 41))
         );
@@ -110,9 +130,7 @@ public class userFrame extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 511, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39)
-                .addComponent(btn)
-                .addContainerGap(81, Short.MAX_VALUE))
+                .addContainerGap(143, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 60, 800, 660));
@@ -163,6 +181,7 @@ public class userFrame extends javax.swing.JFrame {
 
         jLabel2.setText("Quantité :");
 
+        acheterBtn.setBackground(new java.awt.Color(204, 204, 255));
         acheterBtn.setText("Acheter");
         acheterBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -194,10 +213,10 @@ public class userFrame extends javax.swing.JFrame {
                             .addComponent(medicNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(QuantiteFiled, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(163, 163, 163)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(acheterBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(panierBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE))))
+                        .addGap(124, 124, 124)
+                        .addComponent(acheterBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(41, 41, 41)
+                        .addComponent(panierBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(38, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -211,11 +230,11 @@ public class userFrame extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(QuantiteFiled, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addGap(56, 56, 56)
-                .addComponent(acheterBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(52, 52, 52)
-                .addComponent(panierBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(222, Short.MAX_VALUE))
+                .addGap(55, 55, 55)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(acheterBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(panierBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(319, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 450, 650));
@@ -224,91 +243,76 @@ public class userFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActionPerformed
-        
-        
-        DefaultTableModel tblModel = (DefaultTableModel) MedicTable.getModel();
-        PreparedStatement ps;
-        ResultSet rs;
-        String query ="SELECT * FROM `medicament`";
-        
-        
-        
-        
-        try {
-                ps = MyConnection.getConnection().prepareStatement(query);
-                
-                
-                rs = ps.executeQuery();
-                
-                
-                
-                while (rs.next()) {
-                    
-                    String data []= {rs.getString("NAME"),rs.getString("QUANTITE"),rs.getString("PRIX")};
-                    tblModel.addRow(data);
-                    
-                    
-                    
-                }    
-             }catch (SQLException ex) {
-                Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        
-        
-    }//GEN-LAST:event_btnActionPerformed
-
     private void acheterBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_acheterBtnActionPerformed
         String medicName = medicNameField.getText();
         int quantite = Integer.parseInt(QuantiteFiled.getText());
         
-        DefaultTableModel tblModel = (DefaultTableModel) MedicTable.getModel();
-
-        tblModel.setRowCount(0);
         
-        PreparedStatement ps;
-        ResultSet rs;
+        Medicament medicamentacheter=Medicament.getMedicamentFromData(snapshot, medicName);
         
-        
-        String query = "SELECT * FROM `medicament` WHERE `NAME` =?";
-        
-        try {
-            ps = MyConnection.getConnection().prepareCall(query);
-            ps.setString(1, medicName);
-            rs=ps.executeQuery();
+        if(medicamentacheter!=null){
             
-            if (rs.next()) {
+            if(quantite<=medicamentacheter.getQuantite()){
                 
-                Medicament medicament = new Medicament(rs.getString("NAME"),quantite,Double.parseDouble(rs.getString("PRIX")));
-
-                String data []= {medicament.getName(),rs.getString("QUANTITE"),String.valueOf(medicament.getPrix())};
-                tblModel.addRow(data);
-               
                 
-                if(quantite<=rs.getInt("QUANTITE")){
                     
-                    user.ajouterMedicamentAuPanier(medicament);
-                    
+                    snapshot=Medicament.updateQuantite(snapshot, medicName, quantite);
+                    user.ajouterMedicamentAuPanier(medicamentacheter);
     
                     
                     JOptionPane.showMessageDialog(null, user.getPanier().get(0).getQuantite()+"existe");
+                    
+                    medicNameField.setText("");
                 }
                 else{
                     JOptionPane.showMessageDialog(null, "la quantité n'est pas suffisante");
 
                 }
-                    
-                    
-                    
-                    
-                }
             
             
-            
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(userFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        
+        
+        
+        
+        
+        /*
+        
+        DefaultTableModel tblModel = (DefaultTableModel) MedicTable.getModel();
+        
+        tblModel.setRowCount(0);
+        Medicament medicament = new Medicament();
+        medicament.setName(medicName);
+        medicament=medicament.getMedicamentFromData(snapshot);
+        
+        if(medicament!=null){
+ 
+            String data []= {medicament.getName(),String.valueOf(medicament.getQuantite()),String.valueOf(medicament.getPrix())};
+            tblModel.addRow(data);
+            
+            if(quantite<=medicament.getQuantite()){
+                    
+                    user.ajouterMedicamentAuPanier(medicament);
+                    
+                    medicament.setQuantite(medicament.getQuantite()-quantite);
+    
+                    
+                    JOptionPane.showMessageDialog(null, user.getPanier().get(0).getQuantite()+"existe");
+                    
+                    medicNameField.setText("");
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "la quantité n'est pas suffisante");
+
+                }
+        
+            
+            
+            
+        }
+        */
+        
         
         
         
@@ -358,26 +362,14 @@ public class userFrame extends javax.swing.JFrame {
                 DefaultTableModel tblModel = (DefaultTableModel) MedicTable.getModel();
 
                 tblModel.setRowCount(0);
-        
-                PreparedStatement ps;
-                ResultSet rs;
-        
-        
-                String query = "SELECT * FROM `medicament` WHERE `NAME` LIKE ? ";
-        
-                try {
-                    ps = MyConnection.getConnection().prepareCall(query);
-                    ps.setString(1, medicName+"%");
-                    rs=ps.executeQuery();
-            
-                    while (rs.next()) {
-                    
-                            String data []= {rs.getString("NAME"),rs.getString("QUANTITE"),rs.getString("PRIX")};
-                            tblModel.addRow(data);           
-                }   
-        } catch (SQLException ex) {
-            Logger.getLogger(userFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+                
+                medicaments=MyConnection.searchInData(medicName,snapshot);
+
+                for(Medicament medicament:medicaments){
+                String data []= {medicament.getName(),String.valueOf(medicament.getQuantite()),String.valueOf(medicament.getPrix())};
+                tblModel.addRow(data);
+            }
+
             }
             
             
@@ -391,9 +383,11 @@ public class userFrame extends javax.swing.JFrame {
         frame.setVisible(true);
     }//GEN-LAST:event_panierBtnActionPerformed
 
-    
-    
-    
+    private void MedicTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MedicTableMouseClicked
+        String medicamentName=MedicTable.getModel().getValueAt(MedicTable.getSelectedRow(), 0).toString();
+        medicNameField.setText(medicamentName);
+    }//GEN-LAST:event_MedicTableMouseClicked
+
     
     /**
      * @param args the command line arguments
@@ -422,15 +416,7 @@ public class userFrame extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-        
-        
-        
-        
-       
-       
-        
-        
-        
+
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new userFrame().setVisible(true);
@@ -448,7 +434,6 @@ public class userFrame extends javax.swing.JFrame {
     private javax.swing.JTable MedicTable;
     private javax.swing.JTextField QuantiteFiled;
     private javax.swing.JButton acheterBtn;
-    private javax.swing.JButton btn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

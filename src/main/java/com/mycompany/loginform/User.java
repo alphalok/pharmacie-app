@@ -33,7 +33,30 @@ public class User extends Personne{
     }
     
     public void ajouterMedicamentAuPanier(Medicament medicament){
-        this.panier.add(medicament);
+        boolean ifnotexiste=true;
+        
+        for(Medicament med : panier){
+            if(medicament.getName().equals(med.getName())){
+                med.setQuantite(med.getQuantite()+medicament.getQuantite());
+               ifnotexiste=false;
+               break;
+            }
+        }
+        if(ifnotexiste) {
+            this.panier.add(medicament);
+
+        }
+    }
+    
+    public void suprimerPanierElement(String MedicName){
+        ArrayList<Medicament> panierClone=(ArrayList < Medicament >)panier.clone();
+        for(Medicament medicament : panierClone){
+           if(medicament.getName().equals(MedicName)){
+               this.panier.remove(medicament);    
+           }  
+       }
+        
+        
     }
 
 
