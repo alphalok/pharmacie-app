@@ -248,16 +248,69 @@ public class userFrame extends javax.swing.JFrame {
         int quantite = Integer.parseInt(QuantiteFiled.getText());
         
         
+         DefaultTableModel tblModel = (DefaultTableModel) MedicTable.getModel();
+
+        tblModel.setRowCount(0);
+
+        PreparedStatement ps;
+        ResultSet rs;
+
+
+        String query = "SELECT * FROM `medicament` WHERE `NAME` =?";
+        try {
+            ps = MyConnection.getConnection().prepareCall(query);
+            ps.setString(1, medicName);
+            rs=ps.executeQuery();
+            if (rs.next()) {
+
+                Medicament medicament = new Medicament(rs.getString("NAME"),quantite,Double.parseDouble(rs.getString("PRIX")));
+
+                String data []= {medicament.getName(),rs.getString("QUANTITE"),String.valueOf(medicament.getPrix())};
+                tblModel.addRow(data);
+
+
+                if(quantite<=rs.getInt("QUANTITE")){
+                      user.ajouterMedicamentAuPanier(medicament);
+                      medicNameField.setText("");
+                      JOptionPane.showMessageDialog(null, user.getPanier().get(0).getQuantite()+"existe");
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "la quantité n'est pas suffisante");
+                }
+                }} catch (SQLException ex) {
+            Logger.getLogger(userFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+        /*
+        Medicament medicamentacheter = Medicament.getMedicamentFromData(snapshot, medicName);
+        
+        for(Medicament medic:snapshot){
+            if(medic.getName().equals(medicName)){
+               medicamentacheter=medic;
+               break;
+           }
+        }
+        medicamentacheter.setQuantite(quantite);
+        
+       
+        user.ajouterMedicamentAuPanier(medicamentacheter);
+        
+        
+        */
+        
+        /*
         Medicament medicamentacheter=Medicament.getMedicamentFromData(snapshot, medicName);
+        medicamentacheter.setQuantite(quantite);
         
         if(medicamentacheter!=null){
             
             if(quantite<=medicamentacheter.getQuantite()){
-                
-                
-                    
-                    snapshot=Medicament.updateQuantite(snapshot, medicName, quantite);
+                    medicamentacheter.setQuantite(quantite);
+
                     user.ajouterMedicamentAuPanier(medicamentacheter);
+                    
+                    
+                    
+                    
     
                     
                     JOptionPane.showMessageDialog(null, user.getPanier().get(0).getQuantite()+"existe");
@@ -277,14 +330,14 @@ public class userFrame extends javax.swing.JFrame {
         
         
         
-        /*
+        
         
         DefaultTableModel tblModel = (DefaultTableModel) MedicTable.getModel();
         
         tblModel.setRowCount(0);
-        Medicament medicament = new Medicament();
+        
         medicament.setName(medicName);
-        medicament=medicament.getMedicamentFromData(snapshot);
+        medicament=medicament.getMedicamentFromData(snapshot,medicName);
         
         if(medicament!=null){
  
@@ -311,9 +364,9 @@ public class userFrame extends javax.swing.JFrame {
             
             
         }
+        
+        
         */
-        
-        
         
         
         

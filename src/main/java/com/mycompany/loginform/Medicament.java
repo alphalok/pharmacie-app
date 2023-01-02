@@ -55,6 +55,7 @@ public class Medicament {
         for(Medicament medic : medis){
            if(medic.getName().equals(medicamentName)){
                medicament=medic;
+               break;
            }
            
        }
@@ -67,12 +68,8 @@ public class Medicament {
         for(Medicament medic : medis){
            if(medic.getName().equals(medicamentName)){
                int medicQuant=medic.getQuantite();
-               if(quantite<=medicQuant){
-                   medic.setQuantite(medicQuant-quantite);
-               }
-               else{
-                   
-               }
+                medic.setQuantite(medicQuant-quantite);
+
                
                
            }

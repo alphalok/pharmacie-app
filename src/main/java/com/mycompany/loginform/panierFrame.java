@@ -76,6 +76,11 @@ public class panierFrame extends javax.swing.JFrame {
 
         jButton1.setBackground(new java.awt.Color(204, 204, 255));
         jButton1.setText("Valider le paiement");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         supprimerBtn.setBackground(new java.awt.Color(255, 153, 153));
         supprimerBtn.setText("supprimer médicament");
@@ -202,6 +207,17 @@ public class panierFrame extends javax.swing.JFrame {
         user.suprimerPanierElement(medicamentName);
         aficherPanier();
     }//GEN-LAST:event_supprimerBtnActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        
+        
+
+
+
+
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
