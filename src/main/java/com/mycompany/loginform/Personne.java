@@ -15,6 +15,7 @@ public abstract class Personne {
     private int Id;
     private String email;
     private String Cin;
+    
 
     
     public Personne() {

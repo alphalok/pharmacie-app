@@ -44,6 +44,7 @@ public class LoginForm extends javax.swing.JFrame {
         registerBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel2.setBackground(new java.awt.Color(0, 0, 0,0));
@@ -161,7 +162,7 @@ public class LoginForm extends javax.swing.JFrame {
                 
                 
                 
-                while (rs.next()) {
+                if (rs.next()) {
                     boolean isAdmin = rs.getBoolean("IS_ADMIN");;
                     if(isAdmin){
                         Admin admin = new Admin();
@@ -183,6 +184,7 @@ public class LoginForm extends javax.swing.JFrame {
                      user.setId(rs.getInt("ID"));
                      user.setCin(rs.getString("CIN"));
                      user.setEmail(rs.getString("EMAIL"));
+                     user.setSolde(rs.getDouble("SOLDE"));
                      
                      userFrame reg = new userFrame(user);
                      reg.setVisible(true);
@@ -195,6 +197,9 @@ public class LoginForm extends javax.swing.JFrame {
                      
                      
                     
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Les information saisie sont incorect");
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(LoginForm.class.getName()).log(Level.SEVERE, null, ex);

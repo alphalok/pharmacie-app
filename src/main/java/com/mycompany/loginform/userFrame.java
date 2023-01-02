@@ -31,6 +31,7 @@ public class userFrame extends javax.swing.JFrame {
     public userFrame(User u) {
         user=u;
         initComponents();
+        soldeLabel.setText(String.valueOf(user.getSolde())+"  DH");
         aficherTabel();
         connection=MyConnection.getConnection();
     }
@@ -72,6 +73,8 @@ public class userFrame extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         MedicTable = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        soldeLabel = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         medicNameField = new javax.swing.JTextField();
         QuantiteFiled = new javax.swing.JTextField();
@@ -137,15 +140,34 @@ public class userFrame extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(0, 204, 255));
 
+        jLabel3.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Solde : ");
+        jLabel3.setVerifyInputWhenFocusTarget(false);
+
+        soldeLabel.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 12)); // NOI18N
+        soldeLabel.setForeground(new java.awt.Color(255, 255, 204));
+        soldeLabel.setText("solde");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1260, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(99, 99, 99)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(soldeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(980, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 60, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(soldeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1260, 60));
@@ -248,7 +270,7 @@ public class userFrame extends javax.swing.JFrame {
         int quantite = Integer.parseInt(QuantiteFiled.getText());
         
         
-         DefaultTableModel tblModel = (DefaultTableModel) MedicTable.getModel();
+        DefaultTableModel tblModel = (DefaultTableModel) MedicTable.getModel();
 
         tblModel.setRowCount(0);
 
@@ -416,7 +438,7 @@ public class userFrame extends javax.swing.JFrame {
 
                 tblModel.setRowCount(0);
                 
-                medicaments=MyConnection.searchInData(medicName,snapshot);
+                medicaments=MyConnection.searchInData(medicName,MyConnection.getSnapshot());
 
                 for(Medicament medicament:medicaments){
                 String data []= {medicament.getName(),String.valueOf(medicament.getQuantite()),String.valueOf(medicament.getPrix())};
@@ -434,6 +456,7 @@ public class userFrame extends javax.swing.JFrame {
     private void panierBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_panierBtnActionPerformed
         panierFrame frame = new panierFrame(user);
         frame.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_panierBtnActionPerformed
 
     private void MedicTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_MedicTableMouseClicked
@@ -489,11 +512,13 @@ public class userFrame extends javax.swing.JFrame {
     private javax.swing.JButton acheterBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField medicNameField;
     private javax.swing.JButton panierBtn;
+    private javax.swing.JLabel soldeLabel;
     // End of variables declaration//GEN-END:variables
 }

@@ -42,6 +42,11 @@ public class MyConnection {
         return medicaments;
     }
 
+    public static ArrayList<Medicament> getSnapshot() {
+        return snapshot;
+    }
+    
+
     public static void setMedicaments(ArrayList<Medicament> medicaments) {
         MyConnection.medicaments = medicaments;
     }

@@ -10,19 +10,32 @@ import java.util.ArrayList;
 public class User extends Personne{
     
     private ArrayList<Medicament> panier;
+    
+    private double solde=0;
 
     public User(ArrayList<Medicament> panier) {
         this.panier = panier;
     }
 
-    public User(ArrayList<Medicament> panier, String name, String password, int Id, String email, String Cin) {
+    public User(ArrayList<Medicament> panier, String name, String password, int Id, String email, String Cin,double solde) {
         super(name, password, Id, email, Cin);
         this.panier = panier;
+        this.solde=solde;
     }
 
     public User() {
         this.panier=new ArrayList<Medicament>();
     }
+
+    public double getSolde() {
+        return solde;
+    }
+
+    public void setSolde(double solde) {
+        this.solde = solde;
+    }
+    
+    
 
     public ArrayList<Medicament> getPanier() {
         return panier;
