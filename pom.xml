@@ -24,4 +24,5 @@
         <maven.compiler.target>18</maven.compiler.target>
         <exec.mainClass>com.mycompany.loginform.LoginForm</exec.mainClass>
     </properties>
+    
 </project>

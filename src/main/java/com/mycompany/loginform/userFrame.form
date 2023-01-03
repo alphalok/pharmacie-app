@@ -3,6 +3,7 @@
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -128,7 +129,9 @@
                   <Component id="jLabel3" min="-2" pref="85" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="soldeLabel" min="-2" pref="78" max="-2" attributes="0"/>
-                  <EmptySpace pref="980" max="32767" attributes="0"/>
+                  <EmptySpace pref="887" max="32767" attributes="0"/>
+                  <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -139,6 +142,7 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel3" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
                       <Component id="soldeLabel" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
+                      <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="17" max="32767" attributes="0"/>
               </Group>
@@ -167,6 +171,14 @@
             <Property name="text" type="java.lang.String" value="solde"/>
           </Properties>
         </Component>
+        <Component class="javax.swing.JButton" name="jButton1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Logout"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+          </Events>
+        </Component>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="jPanel3">
@@ -177,7 +189,7 @@
       </Properties>
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
-          <AbsoluteConstraints x="10" y="60" width="450" height="650"/>
+          <AbsoluteConstraints x="-10" y="60" width="470" height="660"/>
         </Constraint>
       </Constraints>
 
@@ -205,7 +217,7 @@
                           <Component id="panierBtn" min="-2" pref="114" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="38" max="32767" attributes="0"/>
+                  <EmptySpace pref="58" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -227,7 +239,7 @@
                       <Component id="acheterBtn" alignment="3" min="-2" pref="44" max="-2" attributes="0"/>
                       <Component id="panierBtn" alignment="3" min="-2" pref="46" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="319" max="32767" attributes="0"/>
+                  <EmptySpace pref="329" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
